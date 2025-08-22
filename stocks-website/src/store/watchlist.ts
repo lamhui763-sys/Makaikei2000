@@ -28,8 +28,8 @@ export const useWatchlist = create<WatchlistState>((set, get) => ({
 	add: (symbol: string) => {
 		const clean = symbol.trim().toUpperCase()
 		if (!clean) return
-		const next = Array.from(new Set([...
-			get().Symbols,
+		const next = Array.from(new Set([
+			...get().Symbols,
 			clean,
 		]))
 		set({ Symbols: next })
