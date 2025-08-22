@@ -1,0 +1,1 @@
+# Keep default rules; no special rules needed for WebView-only app.
