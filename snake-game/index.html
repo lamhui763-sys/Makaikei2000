@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Snake Game</title>
+	<meta name="description" content="A simple Snake game with touch controls and high score.">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<div class="game-container">
+		<header class="topbar">
+			<h1 class="title">Snake</h1>
+			<div class="scores">
+				<span>分數：<strong id="score">0</strong></span>
+				<span>最高分：<strong id="highScore">0</strong></span>
+			</div>
+			<div class="controls">
+				<button id="startBtn" class="btn primary">開始</button>
+				<button id="pauseBtn" class="btn">暫停</button>
+				<button id="resetBtn" class="btn danger">重開</button>
+			</div>
+		</header>
+
+		<main class="board">
+			<canvas id="gameCanvas" width="480" height="480" aria-label="Snake game board" role="img"></canvas>
+			<div id="overlay" class="overlay hidden" aria-live="polite">
+				<div class="overlay-card">
+					<h2 id="overlayTitle">Snake</h2>
+					<p id="overlayMessage">按「開始」開始遊戲</p>
+					<div class="overlay-actions">
+						<button id="overlayStartBtn" class="btn primary">開始</button>
+						<button id="overlayResetBtn" class="btn">重開</button>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<div class="mobile-controls" id="mobileControls" aria-label="方向控制">
+			<button class="dpad up" data-dir="up" aria-label="上">▲</button>
+			<div class="middle-row">
+				<button class="dpad left" data-dir="left" aria-label="左">◀</button>
+				<button class="dpad right" data-dir="right" aria-label="右">▶</button>
+			</div>
+			<button class="dpad down" data-dir="down" aria-label="下">▼</button>
+		</div>
+
+		<footer class="help">
+			<p>
+				鍵盤：方向鍵 / WASD。手機：滑動或點擊方向鍵。
+			</p>
+		</footer>
+	</div>
+
+	<script src="./script.js"></script>
+</body>
+</html>
