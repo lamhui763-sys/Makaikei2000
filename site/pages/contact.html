@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>聯絡｜香港夜生活（18+）</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="/site/index.html">香港夜生活</a>
+      <nav class="nav">
+        <a href="/site/index.html">首頁</a>
+        <a href="/site/pages/listings.html">主題與文章</a>
+        <a href="/site/pages/about.html">關於</a>
+        <a href="/site/pages/contact.html">聯絡</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container page">
+    <h1>聯絡我們</h1>
+    <p>歡迎就網站內容提出建議與回饋。請勿提交任何與交易或服務相關之訊息，否則恕不回覆。</p>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('感謝來信！此表單僅作示範用途。');">
+      <div style="display:grid; gap:10px; max-width:560px;">
+        <label>
+          姓名
+          <input type="text" name="name" required style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:#0f1320; color:#fff;">
+        </label>
+        <label>
+          電郵
+          <input type="email" name="email" required style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:#0f1320; color:#fff;">
+        </label>
+        <label>
+          訊息
+          <textarea name="message" rows="6" required style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:#0f1320; color:#fff;"></textarea>
+        </label>
+        <button class="btn primary" type="submit">送出</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> 香港夜生活主題網站。僅供年滿18歲人士瀏覽。本站不提供或促成任何性服務或交易。</p>
+    </div>
+  </footer>
+
+  <script src="/site/script.js"></script>
+</body>
+</html>
