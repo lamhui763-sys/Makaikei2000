@@ -41,7 +41,7 @@ async function bootstrap() {
   const server = app.listen(PORT, async () => {
     logger.info(`旅遊易 server started on http://localhost:${PORT}`);
     try {
-      if (process.env.ENABLE_TUNNEL !== 'false') {
+      if (process.env.ENABLE_TUNNEL === 'true') {
         const tunnel = await localtunnel({ port: Number(PORT) });
         tunnelUrl = tunnel.url;
         logger.info(`Public URL: ${tunnelUrl}`);
