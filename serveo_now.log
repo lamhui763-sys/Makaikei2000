@@ -1,4 +1,4 @@
 nohup: ignoring input
 Pseudo-terminal will not be allocated because stdin is not a terminal.
 [32mForwarding HTTP traffic from https://0f91dc31c15764211666ed012027f382.serveo.net
-[0m
+[0mTimeout, server serveo.net not responding.
