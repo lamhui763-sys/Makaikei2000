@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>行程預覽 - 旅遊易</title>
+  <style>
+    body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial; margin: 0; background: #f6f8fb; color: #0f172a; }
+    .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+    .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 6px 20px rgba(2,6,23,0.1); margin-top: 24px; }
+    h2 { margin-top: 0; }
+    ul { padding-left: 18px; }
+    a { color: #2563eb; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>行程預覽：<%= trip.country %> <%= trip.city %>（<%= trip.start_date %> 起 <%= trip.days %> 天）</h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>航班</h3>
+        <ul>
+          <% report.flights.forEach(function(f){ %>
+            <li><strong><%= f.provider %></strong> - HKD <%= f.priceHKD %> | 去程 <%= f.depart %> / 回程 <%= f.return %> | <a href="<%= f.url %>">連結</a></li>
+          <% }) %>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>酒店</h3>
+        <ul>
+          <% report.hotels.forEach(function(h){ %>
+            <li><strong><%= h.name %></strong> - 每晚 HKD <%= h.pricePerNightHKD %> - <%= h.availability %> | 電話 <%= h.phone %> | <a href="<%= h.url %>">連結</a></li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>景點</h3>
+      <ul>
+        <% report.attractions.forEach(function(a){ %>
+          <li><%= a.name %>（<%= a.area %>） - <a href="<%= a.url %>">官方網站</a></li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>交通策略</h3>
+      <ul>
+        <% report.transport.forEach(function(t){ %>
+          <li><%= t.title %> - <a href="<%= t.url %>">連結</a></li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>天氣預報</h3>
+      <ul>
+        <% report.weather.forEach(function(w){ %>
+          <li><%= w.date %> ： <%= w.summary %>，<%= w.tempMinC %>-<%= w.tempMaxC %>°C</li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <p><a href="/">返回首頁</a></p>
+  </div>
+</body>
+</html>
+

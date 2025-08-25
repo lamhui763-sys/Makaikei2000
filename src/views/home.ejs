@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans HK', sans-serif; margin: 0; background: #f6f8fb; color: #0f172a; }
+    .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+    header { display: flex; align-items: center; justify-content: space-between; }
+    h1 { font-size: 28px; margin: 0; }
+    .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 6px 20px rgba(2,6,23,0.1); margin-top: 24px; }
+    label { display: block; font-weight: 600; margin: 8px 0 6px; }
+    input, select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .actions { text-align: right; margin-top: 16px; }
+    button { background: #2563eb; color: white; border: none; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+    .error { color: #b91c1c; margin-top: 8px; }
+    footer { margin-top: 32px; color: #475569; font-size: 13px; text-align: center; }
+  </style>
+  <% if (typeof error !== 'undefined') { %>
+  <meta name="robots" content="noindex">
+  <% } %>
+  <script>
+    function ensureMinDate() {
+      const input = document.getElementById('startDate');
+      const today = new Date();
+      const iso = new Date(today.getTime() + 24*3600*1000).toISOString().slice(0,10);
+      input.min = iso;
+    }
+    window.addEventListener('DOMContentLoaded', ensureMinDate);
+  </script>
+  </head>
+<body>
+  <div class="container">
+    <header>
+      <h1>旅遊易 TravelEase</h1>
+    </header>
+
+    <div class="card">
+      <h2>建立你的旅遊計劃</h2>
+      <% if (typeof error !== 'undefined') { %>
+        <p class="error"><%= error %></p>
+      <% } %>
+      <form method="POST" action="/trips">
+        <label for="name">姓名</label>
+        <input id="name" name="name" placeholder="王小明" required />
+
+        <label for="email">電郵</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+        <div class="grid">
+          <div>
+            <label for="destination">國家/地區</label>
+            <select id="destination" name="destination" required>
+              <option value="">請選擇</option>
+              <option value="日本" selected>日本</option>
+              <option value="韓國">韓國</option>
+              <option value="台灣">台灣</option>
+              <option value="泰國">泰國</option>
+            </select>
+          </div>
+          <div>
+            <label for="city">城市</label>
+            <input id="city" name="city" placeholder="東京" required />
+          </div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="startDate">出發日期</label>
+            <input id="startDate" name="startDate" type="date" required />
+          </div>
+          <div>
+            <label for="days">行程天數</label>
+            <input id="days" name="days" type="number" min="1" max="30" value="7" required />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit">提交</button>
+        </div>
+      </form>
+    </div>
+
+    <footer>
+      本網站會於出發前三天，自動搜尋航班、酒店、景點、交通及天氣資訊，並把結果電郵給你。
+    </footer>
+  </div>
+</body>
+</html>
+
