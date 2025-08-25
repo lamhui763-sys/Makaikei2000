@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+Dockerfile
+render.yaml
+.git
+.gitignore
+android-snake
+snake-game
+**/*.md
+*.sqlite
+.env
+cloudflared*
+*.log

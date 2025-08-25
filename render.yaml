@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: travelease
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: ENABLE_TUNNEL
+        value: "false"
+      - key: DB_FILE
+        value: /var/data/data.sqlite
+    disk:
+      name: data
+      mountPath: /var/data
+

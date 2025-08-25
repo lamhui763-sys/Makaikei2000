@@ -1,0 +1,6 @@
+nohup: ignoring input
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+[32mForwarding HTTP traffic from https://8080cfa8c338c8c32d34fcfd1c8052b5.serveo.net
+[0mHTTP request from 182.239.89.24 to https://8080cfa8c338c8c32d34fcfd1c8052b5.serveo.net/
+connect_to localhost port 3000: failed.
+Timeout, server serveo.net not responding.
