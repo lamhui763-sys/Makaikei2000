@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>主題與文章｜香港夜生活（18+）</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/site/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="/site/index.html">香港夜生活</a>
+      <nav class="nav">
+        <a href="/site/index.html">首頁</a>
+        <a href="/site/pages/listings.html">主題與文章</a>
+        <a href="/site/pages/about.html">關於</a>
+        <a href="/site/pages/contact.html">聯絡</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container page-header">
+    <h1>主題與文章（非露骨）</h1>
+    <p>本頁內容僅作社會、歷史與文化層面的資訊整理。本站不提供或促成任何性服務或交易。</p>
+    <div class="filter-bar" id="filters">
+      <button class="filter-chip active" data-filter="all">全部</button>
+      <button class="filter-chip" data-filter="culture">文化</button>
+      <button class="filter-chip" data-filter="law" id="law">法律</button>
+      <button class="filter-chip" data-filter="safety" id="safety">安全</button>
+    </div>
+  </div>
+
+  <main class="container page">
+    <div class="card-grid" id="grid">
+      <article class="card" data-tags="culture" id="culture">
+        <img src="/site/assets/neon.svg" alt="霓虹燈抽象佔位圖" loading="lazy">
+        <div class="card-body">
+          <h3>香港夜生活與城市想像</h3>
+          <p>探討影視、文字與媒體如何建構夜生活之符號與敘事。</p>
+        </div>
+      </article>
+      <article class="card" data-tags="law">
+        <img src="/site/assets/city.svg" alt="城市天際線佔位圖" loading="lazy">
+        <div class="card-body">
+          <h3>法律與規範概覽</h3>
+          <p>資料性彙整：公共秩序與相關規範（非法律意見）。</p>
+        </div>
+      </article>
+      <article class="card" data-tags="safety">
+        <img src="https://picsum.photos/seed/hk-night/1200/800" alt="街景佔位照片" loading="lazy">
+        <div class="card-body">
+          <h3>安全與健康資源</h3>
+          <p>公共資源與倡議之概覽；不提供醫療或專業建議。</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> 香港夜生活主題網站。僅供年滿18歲人士瀏覽。本站不提供或促成任何性服務或交易。</p>
+    </div>
+  </footer>
+
+  <script src="/site/script.js"></script>
+  <script>
+    // simple client-side filtering
+    (function(){
+      var grid = document.getElementById('grid');
+      var chips = document.querySelectorAll('.filter-chip');
+      chips.forEach(function(chip){
+        chip.addEventListener('click', function(){
+          chips.forEach(function(c){ c.classList.remove('active'); });
+          chip.classList.add('active');
+          var filter = chip.getAttribute('data-filter');
+          var cards = grid.querySelectorAll('.card');
+          cards.forEach(function(card){
+            if (filter === 'all') { card.style.display = ''; return; }
+            var tags = card.getAttribute('data-tags') || '';
+            card.style.display = tags.indexOf(filter) > -1 ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
