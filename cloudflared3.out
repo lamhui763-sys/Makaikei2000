@@ -26,3 +26,12 @@ nohup: ignoring input
 2025-08-25T06:53:23Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp [::1]:3000: connect: connection refused" connIndex=0 dest=https://luther-reno-substantially-nor.trycloudflare.com/ event=0 ip=198.41.200.233 type=http
 2025-08-25T06:53:24Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp [::1]:3000: connect: connection refused" connIndex=0 event=1 ingressRule=0 originService=http://localhost:3000
 2025-08-25T06:53:24Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: dial tcp [::1]:3000: connect: connection refused" connIndex=0 dest=https://luther-reno-substantially-nor.trycloudflare.com/favicon.ico event=0 ip=198.41.200.233 type=http
+2025-08-25T06:54:35Z INF Initiating graceful shutdown due to signal terminated ...
+2025-08-25T06:54:35Z ERR failed to run the datagram handler error="context canceled" connIndex=0 event=0 ip=198.41.200.233
+2025-08-25T06:54:35Z ERR failed to serve tunnel connection error="accept stream listener encountered a failure while serving" connIndex=0 event=0 ip=198.41.200.233
+2025-08-25T06:54:35Z ERR Serve tunnel error error="accept stream listener encountered a failure while serving" connIndex=0 event=0 ip=198.41.200.233
+2025-08-25T06:54:35Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.233
+2025-08-25T06:54:35Z ERR Connection terminated connIndex=0
+2025-08-25T06:54:35Z ERR no more connections active and exiting
+2025-08-25T06:54:35Z INF Tunnel server stopped
+2025-08-25T06:54:35Z INF Metrics server stopped
