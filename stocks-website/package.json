@@ -1,0 +1,43 @@
+{
+  "name": "stocks-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"node server.js\"",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "server": "node server.js"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "chart.js": "^4.5.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "postcss": "^8.5.6",
+    "react": "^19.1.1",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.0.2",
+    "tailwindcss": "^4.1.12",
+    "yahoo-finance2": "^2.13.3",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  }
+}
