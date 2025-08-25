@@ -1,0 +1,5 @@
+nohup: ignoring input
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Warning: Permanently added 'serveo.net' (RSA) to the list of known hosts.
+[32mForwarding HTTP traffic from https://c4b23766e208828d818dfa3392ef86ab.serveo.net
+[0m
