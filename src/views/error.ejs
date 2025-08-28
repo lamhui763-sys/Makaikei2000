@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>錯誤 - 旅遊易</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Noto Sans TC', sans-serif; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2d3748;
+    }
+    
+    .container { 
+      max-width: 500px; 
+      margin: 0 auto; 
+      padding: 20px; 
+    }
+    
+    .error-card { 
+      background: rgba(255,255,255,0.95); 
+      border-radius: 20px; 
+      padding: 50px 40px; 
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+      text-align: center;
+    }
+    
+    .error-icon {
+      font-size: 4rem;
+      color: #e53e3e;
+      margin-bottom: 20px;
+    }
+    
+    h1 {
+      color: #2d3748;
+      font-size: 2rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    
+    .error-code {
+      background: #e53e3e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 20px 0;
+      display: inline-block;
+    }
+    
+    .error-message {
+      color: #718096;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 20px 0;
+    }
+    
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 25px;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .error-card {
+        padding: 30px 25px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="error-card">
+      <div class="error-icon">
+        <% if (code === 404) { %>
+          <i class="fas fa-map-marker-slash"></i>
+        <% } else { %>
+          <i class="fas fa-exclamation-triangle"></i>
+        <% } %>
+      </div>
+      
+      <h1>
+        <% if (code === 404) { %>
+          找不到頁面
+        <% } else { %>
+          發生錯誤
+        <% } %>
+      </h1>
+      
+      <div class="error-code">
+        錯誤代碼：<%= code || 500 %>
+      </div>
+      
+      <p class="error-message">
+        <%= message || '抱歉，發生了未知錯誤' %>
+      </p>
+      
+      <a href="/" class="btn">
+        <i class="fas fa-home"></i> 返回首頁
+      </a>
+    </div>
+  </div>
+</body>
+</html>
