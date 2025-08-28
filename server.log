@@ -1,0 +1,42 @@
+nohup: ignoring input
+[dotenv@17.2.1] injecting env (11) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+[06:56:34.883] [32mINFO[39m (8377): [36mDatabase initialized successfully[39m
+[06:56:34.900] [32mINFO[39m (8377): [36m定時任務已啟動[39m
+[06:56:34.902] [32mINFO[39m (8377): [36m旅遊易 server started on http://localhost:3000[39m
+[06:56:36.030] [32mINFO[39m (8377): [36mPublic URL: https://shaky-loops-drum.loca.lt[39m
+開始收集 東京 的旅遊信息...
+Failed to get Amadeus access token: Request failed with status code 401
+Failed to get city code: Request failed with status code 401
+Failed to get Amadeus access token: Request failed with status code 401
+Failed to search flights: Request failed with status code 401
+Failed to get Amadeus access token: Request failed with status code 401
+Failed to search hotels: Request failed with status code 401
+[1m[43m[30m
+  Puppeteer old Headless deprecation warning:[0m[33m
+    In the near future `headless: true` will default to the new Headless mode
+    for Chrome instead of the old Headless implementation. For more
+    information, please see https://developer.chrome.com/articles/new-headless/.
+    Consider opting in early by passing `headless: "new"` to `puppeteer.launch()`
+    If you encounter any bugs, please report them to https://github.com/puppeteer/puppeteer/issues/new/choose.[0m
+
+Failed to search attractions: Waiting for selector `.result-title` failed: Waiting failed: 10000ms exceeded
+Failed to get weather info: Request failed with status code 401
+旅遊信息收集完成：東京
+開始收集 巴黎 的旅遊信息...
+Failed to get Amadeus access token: Request failed with status code 401
+Failed to get city code: Request failed with status code 401
+Failed to get Amadeus access token: Request failed with status code 401
+Failed to search flights: Request failed with status code 401
+Failed to get Amadeus access token: Request failed with status code 401
+Failed to search hotels: Request failed with status code 401
+[1m[43m[30m
+  Puppeteer old Headless deprecation warning:[0m[33m
+    In the near future `headless: true` will default to the new Headless mode
+    for Chrome instead of the old Headless implementation. For more
+    information, please see https://developer.chrome.com/articles/new-headless/.
+    Consider opting in early by passing `headless: "new"` to `puppeteer.launch()`
+    If you encounter any bugs, please report them to https://github.com/puppeteer/puppeteer/issues/new/choose.[0m
+
+Failed to search attractions: Waiting for selector `.result-title` failed: Waiting failed: 10000ms exceeded
+Failed to get weather info: Request failed with status code 401
+旅遊信息收集完成：巴黎

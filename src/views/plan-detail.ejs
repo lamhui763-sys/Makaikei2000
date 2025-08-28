@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            padding: 40px 0;
+        }
+        
+        .page-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .item-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .item-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .item-details {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .item-price {
+            color: #e74c3c;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .item-rating {
+            color: #f39c12;
+            font-weight: 600;
+        }
+        
+        .btn {
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+        }
+        
+        .btn-outline-primary {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .btn-outline-primary:hover {
+            background: #667eea;
+            border-color: #667eea;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background: #d1edff;
+            color: #0c5460;
+        }
+        
+        .empty-section {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-map-marker-alt"></i> <%= plan.destination %> 旅遊計劃
+            </h1>
+            <p>詳細的旅遊信息和推薦</p>
+        </div>
+        
+        <div class="detail-card">
+            <span class="status-badge status-<%= plan.status %>">
+                <% if (plan.status === 'pending') { %>
+                    <i class="fas fa-clock"></i> 處理中
+                <% } else { %>
+                    <i class="fas fa-check"></i> 已完成
+                <% } %>
+            </span>
+            
+            <h2 class="section-title">
+                <i class="fas fa-info-circle"></i> 基本信息
+            </h2>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">旅客姓名</div>
+                    <div class="info-value"><%= plan.user_name %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">電子郵箱</div>
+                    <div class="info-value"><%= plan.user_email %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">目的地</div>
+                    <div class="info-value"><%= plan.destination %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">出發日期</div>
+                    <div class="info-value"><%= new Date(plan.start_date).toLocaleDateString('zh-TW') %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">結束日期</div>
+                    <div class="info-value"><%= new Date(plan.end_date).toLocaleDateString('zh-TW') %></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">旅行天數</div>
+                    <div class="info-value"><%= plan.duration %> 天</div>
+                </div>
+            </div>
+        </div>
+        
+        <% if (plan.flights && plan.flights.length > 0) { %>
+            <div class="detail-card">
+                <h2 class="section-title">
+                    <i class="fas fa-plane"></i> 航班推薦
+                </h2>
+                
+                <% plan.flights.forEach(function(flight) { %>
+                    <div class="item-card">
+                        <div class="item-title">
+                            <%= flight.airline %> <%= flight.flight_number %>
+                        </div>
+                        <div class="item-details">
+                            <strong>出發：</strong><%= flight.departure_airport %> → <%= flight.arrival_airport %><br>
+                            <strong>時間：</strong><%= new Date(flight.departure_time).toLocaleString('zh-TW') %> - <%= new Date(flight.arrival_time).toLocaleString('zh-TW') %>
+                        </div>
+                        <div class="item-price">
+                            價格：<%= flight.price %> <%= flight.currency %>
+                        </div>
+                        <% if (flight.booking_url) { %>
+                            <a href="<%= flight.booking_url %>" target="_blank" class="btn btn-primary mt-2">
+                                <i class="fas fa-external-link-alt"></i> 立即預訂
+                            </a>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+        
+        <% if (plan.hotels && plan.hotels.length > 0) { %>
+            <div class="detail-card">
+                <h2 class="section-title">
+                    <i class="fas fa-hotel"></i> 酒店推薦
+                </h2>
+                
+                <% plan.hotels.forEach(function(hotel) { %>
+                    <div class="item-card">
+                        <div class="item-title">
+                            <%= hotel.hotel_name %>
+                        </div>
+                        <div class="item-details">
+                            <strong>地址：</strong><%= hotel.address %><br>
+                            <% if (hotel.rating) { %>
+                                <span class="item-rating">評分：<%= hotel.rating %> ⭐</span>
+                            <% } %>
+                        </div>
+                        <div class="item-price">
+                            每晚：<%= hotel.price_per_night %> HKD
+                        </div>
+                        <% if (hotel.website) { %>
+                            <a href="<%= hotel.website %>" target="_blank" class="btn btn-primary mt-2">
+                                <i class="fas fa-external-link-alt"></i> 查看詳情
+                            </a>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+        
+        <% if (plan.attractions && plan.attractions.length > 0) { %>
+            <div class="detail-card">
+                <h2 class="section-title">
+                    <i class="fas fa-landmark"></i> 必去景點
+                </h2>
+                
+                <% plan.attractions.forEach(function(attraction) { %>
+                    <div class="item-card">
+                        <div class="item-title">
+                            <%= attraction.attraction_name %>
+                        </div>
+                        <div class="item-details">
+                            <%= attraction.description %><br>
+                            <% if (attraction.address) { %>
+                                <strong>地址：</strong><%= attraction.address %><br>
+                            <% } %>
+                            <% if (attraction.rating) { %>
+                                <span class="item-rating">評分：<%= attraction.rating %> ⭐</span><br>
+                            <% } %>
+                            <% if (attraction.ticket_price) { %>
+                                <strong>門票：</strong><%= attraction.ticket_price %> HKD<br>
+                            <% } %>
+                            <% if (attraction.opening_hours) { %>
+                                <strong>開放時間：</strong><%= attraction.opening_hours %>
+                            <% } %>
+                        </div>
+                        <% if (attraction.website) { %>
+                            <a href="<%= attraction.website %>" target="_blank" class="btn btn-primary mt-2">
+                                <i class="fas fa-external-link-alt"></i> 查看詳情
+                            </a>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+        
+        <div class="text-center">
+            <a href="/plans" class="btn btn-outline-light me-3">
+                <i class="fas fa-arrow-left"></i> 返回列表
+            </a>
+            <% if (plan.status === 'completed') { %>
+                <button class="btn btn-primary" onclick="sendReport(<%= plan.id %>)">
+                    <i class="fas fa-paper-plane"></i> 重新發送報告
+                </button>
+            <% } %>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function sendReport(planId) {
+            if (!confirm('確定要重新發送旅遊報告嗎？')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/travel-plans/${planId}/send-report`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('旅遊報告已重新發送！');
+                } else {
+                    alert('發送失敗：' + result.message);
+                }
+            } catch (error) {
+                alert('發送旅遊報告失敗，請稍後再試');
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
