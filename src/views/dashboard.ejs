@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊易 - 個人儀表板</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #FF6B35;
+            --accent-color: #87CEEB;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .sidebar {
+            background: white;
+            min-height: calc(100vh - 76px);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            padding-top: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: var(--dark-color);
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin: 5px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 25px;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .plan-card {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, var(--primary-color), #45a049);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stats-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .modal-header {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border: none;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner-border {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-plane"></i> 旅遊易
+            </a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i> <span id="userName">用戶</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showProfile()">個人資料</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">登出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 側邊欄 -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showDashboard()">
+                            <i class="fas fa-tachometer-alt"></i> 儀表板
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showTravelPlans()">
+                            <i class="fas fa-map"></i> 旅行計劃
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showNewPlan()">
+                            <i class="fas fa-plus"></i> 新建計劃
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showReports()">
+                            <i class="fas fa-file-alt"></i> 旅遊報告
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSettings()">
+                            <i class="fas fa-cog"></i> 設定
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 主要內容區域 -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- 儀表板內容 -->
+                <div id="dashboardContent">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="mb-4">歡迎回來，<span id="welcomeUserName">用戶</span>！</h2>
+                        </div>
+                    </div>
+
+                    <!-- 統計卡片 -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number" id="totalPlans">0</div>
+                                <div class="stats-label">總旅行計劃</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number" id="activePlans">0</div>
+                                <div class="stats-label">進行中計劃</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number" id="completedPlans">0</div>
+                                <div class="stats-label">已完成計劃</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <div class="stats-number" id="totalReports">0</div>
+                                <div class="stats-label">生成報告</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最近的旅行計劃 -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-clock"></i> 最近的旅行計劃</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recentPlans">
+                                        <div class="loading">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">載入中...</span>
+                                            </div>
+                                            <p class="mt-2">載入中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 旅行計劃列表 -->
+                <div id="travelPlansContent" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2>我的旅行計劃</h2>
+                                <button class="btn btn-primary" onclick="showNewPlan()">
+                                    <i class="fas fa-plus"></i> 新建計劃
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="allPlans">
+                        <div class="loading">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">載入中...</span>
+                            </div>
+                            <p class="mt-2">載入中...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 新建計劃 -->
+                <div id="newPlanContent" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-plus"></i> 新建旅行計劃</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="newPlanForm">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="destination" class="form-label">目的地 *</label>
+                                                <input type="text" class="form-control" id="destination" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="duration" class="form-label">旅行天數 *</label>
+                                                <input type="number" class="form-control" id="duration" min="1" max="30" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="startDate" class="form-label">出發日期 *</label>
+                                                <input type="date" class="form-control" id="startDate" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="endDate" class="form-label">回程日期 *</label>
+                                                <input type="date" class="form-control" id="endDate" required>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-secondary me-2" onclick="showDashboard()">取消</button>
+                                            <button type="submit" class="btn btn-primary">創建計劃</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 旅遊報告 -->
+                <div id="reportsContent" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="mb-4">旅遊報告</h2>
+                            <div id="reportsList">
+                                <div class="loading">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">載入中...</span>
+                                    </div>
+                                    <p class="mt-2">載入中...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 設定 -->
+                <div id="settingsContent" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-cog"></i> 個人設定</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="profileForm">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="profileName" class="form-label">姓名</label>
+                                                <input type="text" class="form-control" id="profileName">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="profilePhone" class="form-label">電話號碼</label>
+                                                <input type="tel" class="form-control" id="profilePhone">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profileEmail" class="form-label">電子郵箱</label>
+                                            <input type="email" class="form-control" id="profileEmail" readonly>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">更新資料</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 計劃詳情模態框 -->
+    <div class="modal fade" id="planDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">旅行計劃詳情</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="planDetailContent">
+                    <!-- 內容將由JavaScript填充 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentUser = null;
+        let currentToken = null;
+
+        // 頁面載入時檢查登入狀態
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadDashboard();
+        });
+
+        // 檢查認證狀態
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+
+            if (!token || !user) {
+                window.location.href = '/';
+                return;
+            }
+
+            currentToken = token;
+            currentUser = JSON.parse(user);
+            
+            document.getElementById('userName').textContent = currentUser.name || currentUser.email;
+            document.getElementById('welcomeUserName').textContent = currentUser.name || currentUser.email;
+        }
+
+        // 載入儀表板
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/travel/plans', {
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStats(data.travelPlans);
+                    displayRecentPlans(data.travelPlans);
+                }
+            } catch (error) {
+                console.error('載入儀表板失敗:', error);
+            }
+        }
+
+        // 更新統計數據
+        function updateStats(plans) {
+            const totalPlans = plans.length;
+            const activePlans = plans.filter(p => p.status === 'active').length;
+            const completedPlans = plans.filter(p => p.status === 'completed').length;
+
+            document.getElementById('totalPlans').textContent = totalPlans;
+            document.getElementById('activePlans').textContent = activePlans;
+            document.getElementById('completedPlans').textContent = completedPlans;
+            document.getElementById('totalReports').textContent = totalPlans; // 簡化顯示
+        }
+
+        // 顯示最近的旅行計劃
+        function displayRecentPlans(plans) {
+            const container = document.getElementById('recentPlans');
+            const recentPlans = plans.slice(0, 5); // 只顯示最近5個
+
+            if (recentPlans.length === 0) {
+                container.innerHTML = '<p class="text-muted">還沒有旅行計劃，立即創建一個吧！</p>';
+                return;
+            }
+
+            container.innerHTML = recentPlans.map(plan => `
+                <div class="plan-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5>${plan.destination}</h5>
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-calendar"></i> 
+                                ${new Date(plan.start_date).toLocaleDateString('zh-TW')} - 
+                                ${new Date(plan.end_date).toLocaleDateString('zh-TW')}
+                            </p>
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-clock"></i> ${plan.duration} 天
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <span class="status-badge status-${plan.status}">${getStatusText(plan.status)}</span>
+                            <br>
+                            <button class="btn btn-sm btn-outline-primary mt-2" onclick="viewPlanDetail(${plan.id})">
+                                查看詳情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 獲取狀態文字
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': '準備中',
+                'active': '進行中',
+                'completed': '已完成',
+                'cancelled': '已取消'
+            };
+            return statusMap[status] || status;
+        }
+
+        // 顯示儀表板
+        function showDashboard() {
+            hideAllContent();
+            document.getElementById('dashboardContent').style.display = 'block';
+            updateActiveNav('dashboard');
+            loadDashboard();
+        }
+
+        // 顯示旅行計劃
+        function showTravelPlans() {
+            hideAllContent();
+            document.getElementById('travelPlansContent').style.display = 'block';
+            updateActiveNav('travelPlans');
+            loadAllPlans();
+        }
+
+        // 顯示新建計劃
+        function showNewPlan() {
+            hideAllContent();
+            document.getElementById('newPlanContent').style.display = 'block';
+            updateActiveNav('newPlan');
+            
+            // 設置日期範圍
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            document.getElementById('startDate').addEventListener('change', function() {
+                const startDate = this.value;
+                const endDateInput = document.getElementById('endDate');
+                endDateInput.min = startDate;
+            });
+        }
+
+        // 顯示報告
+        function showReports() {
+            hideAllContent();
+            document.getElementById('reportsContent').style.display = 'block';
+            updateActiveNav('reports');
+            loadReports();
+        }
+
+        // 顯示設定
+        function showSettings() {
+            hideAllContent();
+            document.getElementById('settingsContent').style.display = 'block';
+            updateActiveNav('settings');
+            loadProfile();
+        }
+
+        // 隱藏所有內容
+        function hideAllContent() {
+            const contents = ['dashboardContent', 'travelPlansContent', 'newPlanContent', 'reportsContent', 'settingsContent'];
+            contents.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+        }
+
+        // 更新活動導航
+        function updateActiveNav(activeId) {
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[onclick="show${activeId.charAt(0).toUpperCase() + activeId.slice(1)}()"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        // 載入所有計劃
+        async function loadAllPlans() {
+            const container = document.getElementById('allPlans');
+            container.innerHTML = '<div class="loading"><div class="spinner-border" role="status"></div><p class="mt-2">載入中...</p></div>';
+
+            try {
+                const response = await fetch('/travel/plans', {
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAllPlans(data.travelPlans);
+                }
+            } catch (error) {
+                container.innerHTML = '<p class="text-danger">載入失敗，請稍後再試</p>';
+            }
+        }
+
+        // 顯示所有計劃
+        function displayAllPlans(plans) {
+            const container = document.getElementById('allPlans');
+
+            if (plans.length === 0) {
+                container.innerHTML = '<p class="text-muted">還沒有旅行計劃，立即創建一個吧！</p>';
+                return;
+            }
+
+            container.innerHTML = plans.map(plan => `
+                <div class="plan-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5>${plan.destination}</h5>
+                            <p class="text-muted mb-1">
+                                <i class="fas fa-calendar"></i> 
+                                ${new Date(plan.start_date).toLocaleDateString('zh-TW')} - 
+                                ${new Date(plan.end_date).toLocaleDateString('zh-TW')}
+                            </p>
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-clock"></i> ${plan.duration} 天 | 
+                                <i class="fas fa-calendar-plus"></i> ${new Date(plan.created_at).toLocaleDateString('zh-TW')}
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <span class="status-badge status-${plan.status}">${getStatusText(plan.status)}</span>
+                            <br>
+                            <div class="btn-group mt-2">
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewPlanDetail(${plan.id})">
+                                    詳情
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deletePlan(${plan.id})">
+                                    刪除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 載入報告
+        async function loadReports() {
+            const container = document.getElementById('reportsList');
+            container.innerHTML = '<div class="loading"><div class="spinner-border" role="status"></div><p class="mt-2">載入中...</p></div>';
+
+            try {
+                const response = await fetch('/travel/plans', {
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayReports(data.travelPlans);
+                }
+            } catch (error) {
+                container.innerHTML = '<p class="text-danger">載入失敗，請稍後再試</p>';
+            }
+        }
+
+        // 顯示報告
+        function displayReports(plans) {
+            const container = document.getElementById('reportsList');
+
+            if (plans.length === 0) {
+                container.innerHTML = '<p class="text-muted">還沒有旅行計劃，無法生成報告</p>';
+                return;
+            }
+
+            container.innerHTML = plans.map(plan => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">${plan.destination} 旅遊報告</h5>
+                        <p class="card-text">
+                            <strong>旅行日期：</strong>${new Date(plan.start_date).toLocaleDateString('zh-TW')} - ${new Date(plan.end_date).toLocaleDateString('zh-TW')}<br>
+                            <strong>狀態：</strong><span class="status-badge status-${plan.status}">${getStatusText(plan.status)}</span>
+                        </p>
+                        <button class="btn btn-primary" onclick="viewPlanDetail(${plan.id})">
+                            查看完整報告
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 載入個人資料
+        async function loadProfile() {
+            try {
+                const response = await fetch('/auth/me', {
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('profileName').value = data.user.name || '';
+                    document.getElementById('profilePhone').value = data.user.phone || '';
+                    document.getElementById('profileEmail').value = data.user.email;
+                }
+            } catch (error) {
+                console.error('載入個人資料失敗:', error);
+            }
+        }
+
+        // 新建計劃表單處理
+        document.getElementById('newPlanForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const destination = document.getElementById('destination').value;
+            const duration = parseInt(document.getElementById('duration').value);
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            try {
+                const response = await fetch('/travel/plans', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentToken}`
+                    },
+                    body: JSON.stringify({
+                        destination,
+                        duration,
+                        startDate,
+                        endDate
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('旅行計劃創建成功！');
+                    showDashboard();
+                } else {
+                    alert(data.error || '創建失敗');
+                }
+            } catch (error) {
+                alert('創建失敗，請稍後再試');
+            }
+        });
+
+        // 個人資料表單處理
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('profileName').value;
+            const phone = document.getElementById('profilePhone').value;
+
+            try {
+                const response = await fetch('/auth/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentToken}`
+                    },
+                    body: JSON.stringify({ name, phone })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('個人資料更新成功！');
+                    currentUser = { ...currentUser, name, phone };
+                    localStorage.setItem('user', JSON.stringify(currentUser));
+                    document.getElementById('userName').textContent = name || currentUser.email;
+                } else {
+                    alert(data.error || '更新失敗');
+                }
+            } catch (error) {
+                alert('更新失敗，請稍後再試');
+            }
+        });
+
+        // 查看計劃詳情
+        async function viewPlanDetail(planId) {
+            try {
+                const response = await fetch(`/travel/plans/${planId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayPlanDetail(data);
+                    new bootstrap.Modal(document.getElementById('planDetailModal')).show();
+                }
+            } catch (error) {
+                alert('載入詳情失敗');
+            }
+        }
+
+        // 顯示計劃詳情
+        function displayPlanDetail(data) {
+            const container = document.getElementById('planDetailContent');
+            const plan = data.travelPlan;
+
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>基本信息</h6>
+                        <p><strong>目的地：</strong>${plan.destination}</p>
+                        <p><strong>出發日期：</strong>${new Date(plan.start_date).toLocaleDateString('zh-TW')}</p>
+                        <p><strong>回程日期：</strong>${new Date(plan.end_date).toLocaleDateString('zh-TW')}</p>
+                        <p><strong>旅行天數：</strong>${plan.duration}天</p>
+                        <p><strong>狀態：</strong><span class="status-badge status-${plan.status}">${getStatusText(plan.status)}</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>搜索結果</h6>
+                        <p><strong>航班選項：</strong>${data.flights.length}個</p>
+                        <p><strong>酒店選項：</strong>${data.hotels.length}個</p>
+                        <p><strong>景點推薦：</strong>${data.attractions.length}個</p>
+                        <p><strong>天氣信息：</strong>${data.weather.length}天</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-primary" onclick="triggerSearch(${plan.id})">重新搜索</button>
+                    <button class="btn btn-success" onclick="regenerateReport(${plan.id})">重新生成報告</button>
+                </div>
+            `;
+        }
+
+        // 觸發搜索
+        async function triggerSearch(planId) {
+            try {
+                const response = await fetch(`/travel/plans/${planId}/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentToken}`
+                    },
+                    body: JSON.stringify({ type: 'all' })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('搜索任務已安排，請稍後查看結果');
+                } else {
+                    alert(data.error || '搜索失敗');
+                }
+            } catch (error) {
+                alert('搜索失敗，請稍後再試');
+            }
+        }
+
+        // 重新生成報告
+        async function regenerateReport(planId) {
+            try {
+                const response = await fetch(`/travel/plans/${planId}/report`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('報告重新生成任務已安排，預計5分鐘後完成');
+                } else {
+                    alert(data.error || '生成失敗');
+                }
+            } catch (error) {
+                alert('生成失敗，請稍後再試');
+            }
+        }
+
+        // 刪除計劃
+        async function deletePlan(planId) {
+            if (!confirm('確定要刪除這個旅行計劃嗎？此操作無法撤銷。')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/travel/plans/${planId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${currentToken}`
+                    }
+                });
+
+                if (response.ok) {
+                    alert('旅行計劃刪除成功');
+                    loadAllPlans();
+                } else {
+                    const data = await response.json();
+                    alert(data.error || '刪除失敗');
+                }
+            } catch (error) {
+                alert('刪除失敗，請稍後再試');
+            }
+        }
+
+        // 登出
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // 顯示個人資料
+        function showProfile() {
+            showSettings();
+        }
+    </script>
+</body>
+</html>
