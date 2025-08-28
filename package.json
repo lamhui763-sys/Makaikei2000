@@ -1,7 +1,7 @@
 {
-  "name": "workspace",
+  "name": "travel-easy",
   "version": "1.0.0",
-  "description": "Game life",
+  "description": "旅遊易 - 智能旅遊個人助理",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon --watch src --ext js,ejs --exec node src/index.js",
@@ -15,7 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/lamhui763-sys/Makaikei2000.git"
   },
-  "keywords": [],
+  "keywords": [
+    "travel",
+    "ai",
+    "assistant",
+    "tourism"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -33,9 +38,12 @@
     "express": "^5.1.0",
     "localtunnel": "^2.0.2",
     "node-cron": "^4.2.1",
+    "node-html-parser": "^6.1.13",
     "nodemailer": "^7.0.5",
+    "openai": "^4.104.0",
     "pino": "^9.9.0",
     "pino-pretty": "^13.1.1",
+    "puppeteer": "^21.11.0",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
